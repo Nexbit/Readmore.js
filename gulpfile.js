@@ -1,14 +1,22 @@
 var gulp = require('gulp'),
+    sourcemaps = require('gulp-sourcemaps'),
     uglify = require('gulp-uglify'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    pump = require('pump');
 
-gulp.task('compress', function() {
-  gulp.src('readmore.js')
-    .pipe(uglify({
-      mangle: true,
-      compress: true,
-      preserveComments: 'some'
-    }))
-    .pipe(rename('readmore.min.js'))
-    .pipe(gulp.dest('./'));
+gulp.task('compress', function(cb) {
+  pump([
+      gulp.src('readmore.js'),
+      sourcemaps.init(),
+      uglify({
+        mangle: true,
+        compress: true,
+        preserveComments: 'some'
+      }),
+      rename('readmore.min.js'),
+      sourcemaps.write('./'),
+      gulp.dest('./')
+    ],
+    cb
+  );
 });
