@@ -9,9 +9,7 @@ gulp.task('compress', function(cb) {
       gulp.src('readmore.js'),
       sourcemaps.init(),
       uglify({
-        mangle: true,
-        compress: true,
-        preserveComments: 'some'
+        output: { comments: 'some' }
       }),
       rename('readmore.min.js'),
       sourcemaps.write('./'),
